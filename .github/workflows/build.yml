@@ -17,22 +17,30 @@ env:
 jobs:
 
   test:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-          - name: "Dev channel"
-            channel: dev
-            experimental: true
-          - name: "Beta channel"
-            channel: beta
-            experimental: true
+          # - name: "Dev channel"
+          #   channel: dev
+          #   experimental: true
+          # - name: "Beta channel"
+          #   channel: beta
+          #   experimental: true
           - name: "Stable channel"
             channel: stable
             experimental: false
     steps:
       - uses: actions/checkout@v2
+      - name: Install docker # Taken from https://github.com/actions/virtual-environments/issues/1143#issuecomment-652264388
+        run: |
+          mkdir -p ~/.docker/machine/cache
+          curl -Lo ~/.docker/machine/cache/boot2docker.iso https://github.com/boot2docker/boot2docker/releases/download/v19.03.12/boot2docker.iso
+          brew install docker docker-machine
+          docker-machine create --driver virtualbox default
+          docker-machine env default
+          eval "$(docker-machine env default)"
       - name: Test
         run: make test
         env:
