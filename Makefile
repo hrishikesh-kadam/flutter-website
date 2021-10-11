@@ -250,15 +250,15 @@ deploy-preview-channel:
 clean:
 	rm -rf _site .jekyll* src/.jekyll* *.log tmp example.g .dart_tool .packages
 	rm -rf bundle node_modules .pub-cache
-	docker-compose down --volume
+	docker-compose down --volumes
 
 # Purge all services' containers, images and volumes.
 mostlyclean: clean
-	docker-compose down --rmi all --volume
+	docker-compose down --rmi all --volumes
 
 # Also clean all the git ignored files.
 # WARNING Make sure you run this command on committed changes!
 maintainer-clean:
-	docker-compose down --rmi all --volume
+	docker-compose down --rmi all --volumes
 	git clean -dfx && git submodule foreach --recursive git clean -dfx
 	git submodule update --init --recursive
