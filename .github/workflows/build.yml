@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - make-docker-better-copy
   pull_request:
     branches:
       - main
@@ -45,10 +46,6 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
-    if: |
-      github.event_name == 'push'
-      && github.ref == 'refs/heads/main'
-      && github.repository == 'flutter/website'
     steps:
       - uses: actions/checkout@v2
         with:
@@ -65,4 +62,4 @@ jobs:
         run: make deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          FIREBASE_ALIAS: default
+          FIREBASE_ALIAS: hrk-flutter-website
