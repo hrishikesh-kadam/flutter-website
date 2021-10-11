@@ -19,5 +19,5 @@ if [[ $HOST_KERNEL_NAME == Darwin || $HOST_KERNEL_NAME == Linux ]]; then
 else
   echo HOST_GROUP_ID=0 >> $1
   echo HOST_USER_ID=0 >> $1
-  echo HOST_USER_HOME=root >> $1
+  echo HOST_USER_HOME=/root >> $1
 fi
