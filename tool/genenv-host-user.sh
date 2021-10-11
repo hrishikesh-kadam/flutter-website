@@ -10,15 +10,14 @@
 HOST_KERNEL_NAME=$(uname -s)
 echo HOST_KERNEL_NAME=$HOST_KERNEL_NAME >> $1
 
-declare -a KERNELS=(Linux Darwin)
-
-for KERNEL in ${KERNELS[@]}; do
-  if [[ $KERNEL == $HOST_KERNEL_NAME ]]; then
-    echo HOST_GROUP_ID=$(id -g) >> $1
-    echo HOST_GROUP_NAME=$(id -gn) >> $1
-    echo HOST_USER_ID=$(id -u) >> $1
-    echo HOST_USER_HOME=$HOME >> $1
-    echo HOST_USER_NAME=$(id -un) >> $1
-    break
-  fi
-done
+if [[ $HOST_KERNEL_NAME == Darwin || $HOST_KERNEL_NAME == Linux ]]; then
+  echo HOST_GROUP_ID=$(id -g) >> $1
+  echo HOST_GROUP_NAME=$(id -gn) >> $1
+  echo HOST_USER_ID=$(id -u) >> $1
+  echo HOST_USER_HOME=$HOME >> $1
+  echo HOST_USER_NAME=$(id -un) >> $1
+else
+  echo HOST_GROUP_ID=0 >> $1
+  echo HOST_USER_ID=0 >> $1
+  echo HOST_USER_HOME=root >> $1
+fi
